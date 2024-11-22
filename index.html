@@ -1,40 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Widget Demo</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="scripts.js"></script>
-</head>
-<body>
-    <div id="app-container">
-        <header id="header">
-            <h1>Advanced Widget Demo</h1>
-        </header>
-        <main id="widget-area">
-            <div class="widget" draggable="true">
-                <div class="delete-icon hidden">−</div>
-                <h3>Weather</h3>
-                <p id="weather-info">Sunny, 25°C</p>
-            </div>
-            <div class="widget" draggable="true">
-                <div class="delete-icon hidden">−</div>
-                <h3>News</h3>
-                <ul id="news-list">
-                    <li>Latest headline 1</li>
-                    <li>Latest headline 2</li>
-                </ul>
-            </div>
-            <div class="widget" draggable="true">
-                <div class="delete-icon hidden">−</div>
-                <h3>Calendar</h3>
-                <p id="calendar-info">No upcoming events.</p>
-            </div>
-        </main>
-        <footer id="footer">
-            <p>© 2024 Advanced Widget Demo</p>
-        </footer>
+<div id="widget-container">
+    <div class="widget" draggable="true">
+        <div>Weather</div>
+        <div class="delete-icon">-</div>
     </div>
-</body>
-</html>
+    <div class="widget" draggable="true">
+        <div>News</div>
+        <div class="delete-icon">-</div>
+    </div>
+    <div class="widget" draggable="true">
+        <div>Calendar</div>
+        <div class="delete-icon">-</div>
+    </div>
+</div>
+<footer>© 2024 Advanced Widget Demo</footer>
