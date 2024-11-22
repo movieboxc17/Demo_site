@@ -1,36 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
     const widgets = document.querySelectorAll('.widget');
-    const modal = document.getElementById('customization-modal');
-    const closeModalButton = document.getElementById('close-modal');
+    let isEditMode = false;
 
     widgets.forEach(widget => {
-        widget.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            showCustomizationModal(e.clientX, e.clientY, widget);
+        widget.addEventListener('touchstart', (e) => handleLongPress(e, widget), { passive: true });
+        widget.addEventListener('mousedown', (e) => handleLongPress(e, widget));
+        widget.addEventListener('mouseup', resetLongPress);
+        widget.addEventListener('touchend', resetLongPress);
+        widget.querySelector('.delete-icon').addEventListener('click', () => widget.remove());
+    });
+
+    let pressTimer;
+    function handleLongPress(e, widget) {
+        if (isEditMode) return;
+        pressTimer = setTimeout(() => {
+            enableEditMode();
+        }, 800); // Long press duration
+    }
+
+    function resetLongPress() {
+        clearTimeout(pressTimer);
+    }
+
+    function enableEditMode() {
+        isEditMode = true;
+        widgets.forEach(widget => {
+            widget.classList.add('vibrating');
+            widget.querySelector('.delete-icon').classList.remove('hidden');
         });
-    });
-
-    closeModalButton.addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
-
-    function showCustomizationModal(x, y, widget) {
-        modal.style.top = `${y}px`;
-        modal.style.left = `${x}px`;
-        modal.classList.remove('hidden');
-        document.getElementById('color-change').onclick = () => changeBackgroundColor(widget);
-        document.getElementById('resize-widget').onclick = () => resizeWidget(widget);
-        document.getElementById('delete-widget').onclick = () => widget.remove();
     }
 
-    function changeBackgroundColor(widget) {
-        widget.style.backgroundColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-    }
+    document.body.addEventListener('click', (e) => {
+        if (!e.target.closest('.widget') && isEditMode) {
+            disableEditMode();
+        }
+    });
 
-    function resizeWidget(widget) {
-        widget.style.transform = 'scale(1.2)';
-        setTimeout(() => {
-            widget.style.transform = 'scale(1)';
-        }, 500);
+    function disableEditMode() {
+        isEditMode = false;
+        widgets.forEach(widget => {
+            widget.classList.remove('vibrating');
+            widget.querySelector('.delete-icon').classList.add('hidden');
+        });
     }
 });
