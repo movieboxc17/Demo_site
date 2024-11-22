@@ -45,21 +45,13 @@
             height: 150px;
             position: relative;
             user-select: none;
-            cursor: pointer;
+            cursor: grab;
             transition: transform 0.2s;
         }
 
-        /* Resizable Feature */
-        .widget.resizable {
-            resize: both;
-            overflow: auto;
-        }
-
-        /* Dragging Effect */
         .widget.dragging {
             opacity: 0.7;
             transform: scale(1.05);
-            cursor: grabbing;
         }
 
         /* Delete Icon */
@@ -98,15 +90,15 @@
     <header>Advanced Widget Demo</header>
     <div id="widget-container">
         <div class="widget" draggable="true">
-            <div>Weather</div>
+            <div>Weather: Sunny, 25°C</div>
             <div class="delete-icon">-</div>
         </div>
         <div class="widget" draggable="true">
-            <div>News</div>
+            <div>News: Latest headlines</div>
             <div class="delete-icon">-</div>
         </div>
         <div class="widget" draggable="true">
-            <div>Calendar</div>
+            <div>Calendar: No upcoming events</div>
             <div class="delete-icon">-</div>
         </div>
     </div>
@@ -119,7 +111,7 @@
             let pressTimer;
 
             widgets.forEach(widget => {
-                // Long-press for enabling edit mode
+                // Long-press to enable edit mode
                 widget.addEventListener('mousedown', (e) => handleLongPress(e, widget));
                 widget.addEventListener('mouseup', resetLongPress);
                 widget.addEventListener('touchstart', (e) => handleLongPress(e, widget));
