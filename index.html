@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Widget Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <div id="app-container">
+        <header id="header">
+            <h1>Advanced Widget Demo</h1>
+        </header>
+        <main id="widget-area">
+            <div class="widget" draggable="true">
+                <h3>Weather</h3>
+                <p id="weather-info">Sunny, 25°C</p>
+            </div>
+            <div class="widget" draggable="true">
+                <h3>News</h3>
+                <ul id="news-list">
+                    <li>Latest headline 1</li>
+                    <li>Latest headline 2</li>
+                </ul>
+            </div>
+            <div class="widget" draggable="true">
+                <h3>Calendar</h3>
+                <p id="calendar-info">No upcoming events.</p>
+            </div>
+        </main>
+        <footer id="footer">
+            <p>© 2024 Advanced Widget Demo</p>
+        </footer>
+    </div>
+
+    <div id="customization-modal" class="hidden">
+        <h2>Customize Widget</h2>
+        <div id="customization-options">
+            <button id="color-change">Change Background Color</button>
+            <button id="resize-widget">Resize Widget</button>
+            <button id="delete-widget">Delete Widget</button>
+        </div>
+        <button id="close-modal">Close</button>
+    </div>
+</body>
+</html>
