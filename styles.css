@@ -3,54 +3,56 @@ body {
     font-family: Arial, sans-serif;
     background-color: #2b2b2b;
     color: #fff;
-    text-align: center;
     margin: 0;
-    overflow-x: hidden;
+    text-align: center;
+}
+
+/* Header */
+header {
+    background-color: #3a3a3a;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 /* Widget Container */
 #widget-container {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
-    margin-top: 50px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* Widget Style */
 .widget {
-    width: 150px;
-    height: 150px;
     background-color: #444;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    font-size: 18px;
-    color: #fff;
+    height: 150px;
     position: relative;
-    user-select: none; /* Prevent text selection */
-    -webkit-user-select: none; /* Safari */
+    user-select: none;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s;
 }
 
-.widget:active {
-    transform: scale(0.98);
+/* Resizable Feature */
+.widget.resizable {
+    resize: both;
+    overflow: auto;
 }
 
-/* Widget Vibrating Effect */
-.vibrating {
-    animation: vibrate 0.1s infinite;
-}
-
-@keyframes vibrate {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    25% { transform: translate(-1px, -1px) rotate(-1deg); }
-    50% { transform: translate(1px, -1px) rotate(1deg); }
-    75% { transform: translate(-1px, 1px) rotate(-1deg); }
-    100% { transform: translate(1px, 1px) rotate(0deg); }
+/* Dragging Effect */
+.widget.dragging {
+    opacity: 0.7;
+    transform: scale(1.05);
+    cursor: grabbing;
 }
 
 /* Delete Icon */
@@ -67,8 +69,6 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     visibility: hidden;
     opacity: 0;
     transition: visibility 0.2s, opacity 0.2s;
@@ -79,16 +79,7 @@ body {
     opacity: 1;
 }
 
-/* Header Style */
-header {
-    background-color: #3a3a3a;
-    padding: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-    text-align: center;
-}
-
+/* Footer */
 footer {
     margin-top: 50px;
     font-size: 14px;
