@@ -7,38 +7,38 @@
     <style>
         /* General Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #2b2b2b, #1a1a1a);
+            font-family: Arial, sans-serif;
+            background-color: #2b2b2b;
             color: #fff;
             margin: 0;
             text-align: center;
             overflow-x: hidden;
         }
 
-        /* Header */
         header {
             background-color: #3a3a3a;
             padding: 20px;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         /* Widget Container */
         #widget-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            padding: 30px;
+            gap: 15px;
+            padding: 20px;
             max-width: 900px;
             margin: 0 auto;
         }
 
-        /* Widget Style */
         .widget {
-            background: linear-gradient(145deg, #444, #555);
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             color: white;
             text-align: center;
             display: flex;
@@ -46,33 +46,20 @@
             align-items: center;
             height: 150px;
             position: relative;
-            user-select: none;
             cursor: grab;
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         .widget:hover {
-            background: linear-gradient(145deg, #555, #666);
-            transform: scale(1.05);
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
         }
 
         .widget.dragging {
-            opacity: 0.8;
-            transform: scale(1.1) rotate(3deg);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.7);
-        }
-
-        /* Vibrating Animation */
-        .widget.vibrating {
-            animation: vibrate 0.2s infinite;
-        }
-
-        @keyframes vibrate {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-2px); }
-            50% { transform: translateX(2px); }
-            75% { transform: translateX(-2px); }
-            100% { transform: translateX(0); }
+            opacity: 0.7;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
         /* Delete Icon */
@@ -83,29 +70,82 @@
             background-color: #ff3b30;
             color: #fff;
             border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            width: 24px;
+            height: 24px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 18px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
             visibility: hidden;
             opacity: 0;
-            transition: visibility 0.3s, opacity 0.3s;
+            transition: visibility 0.2s, opacity 0.2s, transform 0.2s;
         }
 
         .widget.vibrating .delete-icon {
             visibility: visible;
             opacity: 1;
+            transform: scale(1.2);
         }
 
-        /* Footer */
-        footer {
-            margin-top: 50px;
-            font-size: 14px;
-            color: #aaa;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        /* Buttons */
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Dark/Light Mode Toggle */
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #f0ad4e;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Add Widget */
+        #add-widget-btn {
+            display: block;
+            margin: 20px auto;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
     </style>
 </head>
@@ -114,99 +154,54 @@
     <div id="widget-container">
         <div class="widget" draggable="true">
             <div>Weather: Sunny, 25°C</div>
-            <div class="delete-icon">-</div>
+            <div class="delete-icon">×</div>
         </div>
         <div class="widget" draggable="true">
             <div>News: Latest headlines</div>
-            <div class="delete-icon">-</div>
+            <div class="delete-icon">×</div>
         </div>
         <div class="widget" draggable="true">
             <div>Calendar: No upcoming events</div>
-            <div class="delete-icon">-</div>
+            <div class="delete-icon">×</div>
         </div>
     </div>
-    <footer>© <span id="current-year"></span> Advanced Widget Demo</footer>
+    <button id="add-widget-btn">Add New Widget</button>
+    <button id="theme-toggle">☀️</button>
+    <footer>© 2024 Advanced Widget Demo</footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const widgetContainer = document.querySelector('#widget-container');
-            const widgets = document.querySelectorAll('.widget');
-            const currentYear = document.getElementById('current-year');
-            currentYear.textContent = new Date().getFullYear();
+            const themeToggle = document.querySelector('#theme-toggle');
+            const addWidgetBtn = document.querySelector('#add-widget-btn');
+            let isDarkMode = true;
 
-            let isEditMode = false;
-            let pressTimer;
+            // Theme toggle
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-theme');
+                isDarkMode = !isDarkMode;
+                themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+            });
 
-            widgets.forEach(widget => {
-                // Long-press to enable edit mode
-                widget.addEventListener('mousedown', (e) => handleLongPress(e, widget));
-                widget.addEventListener('mouseup', resetLongPress);
-                widget.addEventListener('touchstart', (e) => handleLongPress(e, widget));
-                widget.addEventListener('touchend', resetLongPress);
+            // Add new widget
+            addWidgetBtn.addEventListener('click', () => {
+                const newWidget = document.createElement('div');
+                newWidget.classList.add('widget');
+                newWidget.setAttribute('draggable', 'true');
+                newWidget.innerHTML = '<div>New Widget Content</div><div class="delete-icon">×</div>';
+                widgetContainer.appendChild(newWidget);
+                attachWidgetEvents(newWidget);
+            });
 
-                // Dragging functionality
+            // Attach events to widgets
+            function attachWidgetEvents(widget) {
+                const deleteIcon = widget.querySelector('.delete-icon');
                 widget.addEventListener('dragstart', () => widget.classList.add('dragging'));
                 widget.addEventListener('dragend', () => widget.classList.remove('dragging'));
-
-                // Delete functionality
-                const deleteIcon = widget.querySelector('.delete-icon');
                 deleteIcon.addEventListener('click', () => widget.remove());
-            });
-
-            // Drag-and-drop functionality
-            widgetContainer.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                const dragging = document.querySelector('.dragging');
-                const afterElement = getDragAfterElement(widgetContainer, e.clientY);
-                if (afterElement == null) {
-                    widgetContainer.appendChild(dragging);
-                } else {
-                    widgetContainer.insertBefore(dragging, afterElement);
-                }
-            });
-
-            function getDragAfterElement(container, y) {
-                const draggableElements = [...container.querySelectorAll('.widget:not(.dragging)')];
-                return draggableElements.reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = y - box.top - box.height / 2;
-                    if (offset < 0 && offset > closest.offset) {
-                        return { offset: offset, element: child };
-                    } else {
-                        return closest;
-                    }
-                }, { offset: Number.NEGATIVE_INFINITY }).element;
             }
 
-            function handleLongPress(e, widget) {
-                e.preventDefault();
-                if (isEditMode) return;
-                pressTimer = setTimeout(() => enableEditMode(), 800);
-            }
-
-            function resetLongPress() {
-                clearTimeout(pressTimer);
-            }
-
-            function enableEditMode() {
-                isEditMode = true;
-                widgets.forEach(widget => {
-                    widget.classList.add('vibrating');
-                });
-            }
-
-            function disableEditMode() {
-                isEditMode = false;
-                widgets.forEach(widget => {
-                    widget.classList.remove('vibrating');
-                });
-            }
-
-            // Exit edit mode when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.widget') && isEditMode) {
-                    disableEditMode();
-                }
-            });
+            // Initialize existing widgets
+            document.querySelectorAll('.widget').forEach(attachWidgetEvents);
         });
     </script>
 </body>
